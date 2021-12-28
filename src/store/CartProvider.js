@@ -60,6 +60,9 @@ const cartReducer = (state, action) => {
       totalAmount: updatedTotalAmount,
     };
   }
+  if (action.type === "CLEAR") {
+    return defaultCartState;
+  }
   return defaultCartState; // tohle je fallback action, ktera se udela kdyz mame jiny typ akce nez ADD a REMOVE
 };
 
@@ -77,11 +80,16 @@ function CartProvider(props) {
     dispatchCartAction({ type: "REMOVE", id: id });
   }
 
+  function clearCartHandler() {
+    dispatchCartAction({ type: "CLEAR" });
+  }
+
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,
     removeItem: removeItemHandler,
+    clearCart: clearCartHandler,
   };
 
   return (
